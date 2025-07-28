@@ -1,15 +1,19 @@
 const express = require('express');
-const { sql, poolConnect } = require('../db');
+const { sql, getRequest } = require('../db');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
 
 router.post('/', auth, async (req, res) => {
-  await poolConnect;
   const userId = req.user.id;
   const { menuId, note } = req.body;
   try {
-    await sql.query`INSERT INTO Orders (UserId, MenuId, OrderDate, Note) VALUES (${userId}, ${menuId}, GETDATE(), ${note})`;
+    const request = await getRequest();
+    await request
+      .input('userId', sql.Int, userId)
+      .input('menuId', sql.Int, menuId)
+      .input('note', sql.NVarChar, note)
+      .query('INSERT INTO Orders (UserId, MenuId, OrderDate, Note) VALUES (@userId, @menuId, GETDATE(), @note)');
     res.json({ message: 'Order placed' });
   } catch (err) {
     console.error(err);
@@ -18,10 +22,12 @@ router.post('/', auth, async (req, res) => {
 });
 
 router.get('/mine', auth, async (req, res) => {
-  await poolConnect;
   const userId = req.user.id;
   try {
-    const result = await sql.query`SELECT * FROM Orders WHERE UserId = ${userId}`;
+    const request = await getRequest();
+    const result = await request
+      .input('userId', sql.Int, userId)
+      .query('SELECT * FROM Orders WHERE UserId = @userId');
     res.json(result.recordset);
   } catch (err) {
     console.error(err);

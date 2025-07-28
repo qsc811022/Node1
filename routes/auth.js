@@ -1,15 +1,17 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { sql, poolConnect } = require('../db');
+const { sql, getRequest } = require('../db');
 
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
-  await poolConnect;
   const { username, password } = req.body;
   try {
-    const result = await sql.query`SELECT Id, PasswordHash, Role FROM Users WHERE Username = ${username}`;
+    const request = await getRequest();
+    const result = await request
+      .input('username', sql.NVarChar, username)
+      .query('SELECT Id, PasswordHash, Role FROM Users WHERE Username = @username');
     if (result.recordset.length === 0) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
