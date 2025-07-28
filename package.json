@@ -1,0 +1,16 @@
+{
+  "name": "lunchbox-order",
+  "version": "1.0.0",
+  "description": "LunchBox Ordering System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "bcryptjs": "^2.4.3",
+    "sqlite3": "^5.1.6"
+  }
+}
