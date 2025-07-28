@@ -1,0 +1,21 @@
+{
+  "name": "node1",
+  "version": "1.0.0",
+  "description": "本專案為一個公司內部使用的訂便當系統，提供員工線上點餐、查詢訂單、管理便當項目與統計每日訂單狀況，並支援使用者註冊 / 登入 / 權限管理功能。",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mssql": "^9.1.1",
+    "bcrypt": "^5.1.0",
+    "jsonwebtoken": "^9.0.1",
+    "dotenv": "^16.0.3"
+  }
+}
